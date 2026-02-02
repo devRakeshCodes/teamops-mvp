@@ -1,0 +1,23 @@
+:root {
+	/* Colors */
+	--color-primary: #022F49;
+    --color-primary-hover: #011E33;
+	--color-secondary: #E6873C;
+    --color-secondary-hover: #E7750C;
+	--color-bg: #f8f9fa;
+	--color-surface: #ffffff;
+	--color-text: #111827;
+	--color-muted: #6b7280;
+
+	/* Spacing */
+	--spacing-xs: 4px;
+	--spacing-sm: 8px;
+	--spacing-md: 16px;
+	--spacing-lg: 24px;
+	--spacing-xl: 32px;
+
+	/* Radius */
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+}
