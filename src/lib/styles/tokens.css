@@ -8,6 +8,10 @@
 	--color-surface: #ffffff;
 	--color-text: #111827;
 	--color-muted: #6b7280;
+    --color-success: #3C8E98;
+    --color-warning: #E6873C;
+    --color-error: #FF1100;
+    --color-border: rgba(17, 24, 39, 0.08);
 
 	/* Spacing */
 	--spacing-xs: 4px;
