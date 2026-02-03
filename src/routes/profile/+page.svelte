@@ -1,6 +1,4 @@
 <script>
-	import Skeleton from '$lib/components/Skeleton.svelte';
-
 	const { data } = $props();
 	const user = $derived.by(() => data?.user);
 
@@ -29,19 +27,50 @@
 
 {#if !user}
 	<section class="page">
-		<div class="hero hero-skeleton">
-			<Skeleton />
-			<Skeleton />
-		</div>
+		<section class="hero hero-loading" aria-label="Loading profile">
+			<div class="hero-main">
+				<div class="avatar sk sk-circle"></div>
+
+				<div class="hero-text">
+					<div class="sk sk-line sk-title"></div>
+					<div class="sk sk-line sk-subtitle"></div>
+					<div class="sk sk-pill"></div>
+				</div>
+			</div>
+
+			<div class="hero-actions">
+				<div class="sk sk-btn"></div>
+				<div class="sk sk-btn sk-btn-secondary"></div>
+			</div>
+
+			<div class="hero-top">
+				<div class="sk sk-logout"></div>
+			</div>
+		</section>
 
 		<section class="panel">
 			<div class="panel-head">
 				<h2>Account Details</h2>
+				<p class="muted">Key information about your account</p>
 			</div>
+
 			<div class="surface">
-				<Skeleton />
-				<Skeleton />
-				<Skeleton />
+				<div class="kv">
+					<span class="k"><span class="sk sk-line"></span></span>
+					<span class="v"><span class="sk sk-line"></span></span>
+				</div>
+				<div class="kv">
+					<span class="k"><span class="sk sk-line"></span></span>
+					<span class="v"><span class="sk sk-line"></span></span>
+				</div>
+				<div class="kv">
+					<span class="k"><span class="sk sk-line"></span></span>
+					<span class="v"><span class="sk sk-line"></span></span>
+				</div>
+				<div class="kv">
+					<span class="k"><span class="sk sk-line"></span></span>
+					<span class="v"><span class="sk sk-line"></span></span>
+				</div>
 			</div>
 		</section>
 	</section>
@@ -57,7 +86,78 @@
 					<p class="role">{user.role}</p>
 
 					<span class={'pill ' + statusClass(user.status)}>
-						<span class="pill-dot"></span>
+						{#if statusClass(user.status) === 'good'}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 16 16"
+								fill="none"
+							>
+								<path
+									d="M8.00016 14.6663C11.6668 14.6663 14.6668 11.6663 14.6668 7.99967C14.6668 4.33301 11.6668 1.33301 8.00016 1.33301C4.3335 1.33301 1.3335 4.33301 1.3335 7.99967C1.3335 11.6663 4.3335 14.6663 8.00016 14.6663Z"
+									fill="#2F9A47"
+									stroke="#2F9A47"
+									stroke-width="1.2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<path
+									d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328"
+									stroke="#fff"
+									stroke-width="1.2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						{:else if statusClass(user.status) === 'warn'}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 16 16"
+								fill="none"
+							>
+								<path
+									d="M8.00016 14.6663C11.6668 14.6663 14.6668 11.6663 14.6668 7.99967C14.6668 4.33301 11.6668 1.33301 8.00016 1.33301C4.3335 1.33301 1.3335 4.33301 1.3335 7.99967C1.3335 11.6663 4.3335 14.6663 8.00016 14.6663Z"
+									fill="#F5A623"
+									stroke="#F5A623"
+									stroke-width="1.2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+
+								<!-- Exclamation mark -->
+								<path d="M8 4.5V8.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round" />
+								<circle cx="8" cy="10.8" r="0.7" fill="#fff" />
+							</svg>
+						{:else if statusClass(user.status) === 'bad'}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 16 16"
+								fill="none"
+							>
+								<path
+									d="M8.00016 14.6663C11.6668 14.6663 14.6668 11.6663 14.6668 7.99967C14.6668 4.33301 11.6668 1.33301 8.00016 1.33301C4.3335 1.33301 1.3335 4.33301 1.3335 7.99967C1.3335 11.6663 4.3335 14.6663 8.00016 14.6663Z"
+									fill="#D64545"
+									stroke="#D64545"
+									stroke-width="1.2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+
+								<!-- X -->
+								<path
+									d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+									stroke="#fff"
+									stroke-width="1.2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						{/if}
 						{user.status}
 					</span>
 				</div>
@@ -109,8 +209,76 @@
 		max-width: 1200px;
 		margin: 0 auto;
 	}
+	.hero-loading {
+		background: rgba(17, 24, 39, 0.04);
+		color: transparent;
+		box-shadow: none;
+	}
 
-	/* HERO like the mock */
+	/* Reusable skeleton block */
+	.sk {
+		display: inline-block;
+		border-radius: var(--radius-sm);
+		background: linear-gradient(90deg, #e9ecef 25%, #f5f5f5 37%, #e9ecef 63%);
+		background-size: 400px 100%;
+		animation: shimmer 1.2s infinite;
+	}
+
+	.sk-circle {
+		width: 84px;
+		height: 84px;
+		border-radius: 999px;
+	}
+
+	.sk-line {
+		height: 14px;
+		width: 100%;
+	}
+
+	.sk-title {
+		height: 18px;
+		width: 220px;
+		margin-bottom: 10px;
+	}
+
+	.sk-subtitle {
+		width: 160px;
+		opacity: 0.9;
+		margin-bottom: 12px;
+	}
+
+	.sk-pill {
+		height: 22px;
+		width: 90px;
+		border-radius: 999px;
+	}
+
+	.sk-btn {
+		height: 38px;
+		width: 150px;
+		border-radius: var(--radius-sm);
+	}
+
+	.sk-btn-secondary {
+		width: 120px;
+		opacity: 0.9;
+	}
+
+	.sk-logout {
+		height: 16px;
+		width: 60px;
+		border-radius: var(--radius-sm);
+	}
+
+	@keyframes shimmer {
+		0% {
+			background-position: -400px 0;
+		}
+		100% {
+			background-position: 400px 0;
+		}
+	}
+
 	.hero {
 		background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
 		color: #fff;
@@ -129,6 +297,11 @@
 		display: flex;
 		gap: var(--spacing-lg);
 		align-items: center;
+	}
+	.hero-text {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
 	}
 
 	.avatar {
@@ -152,28 +325,31 @@
 		font-weight: 600;
 	}
 
-	/* Status pill (matches dashboard style) */
+	/* Status pill */
 	.pill {
+		width: fit-content;
 		display: inline-flex;
 		align-items: center;
 		gap: 6px;
-		padding: 4px 10px;
+		padding: 4px 10px 4px 6px;
 		border-radius: 999px;
 		font-size: 0.85rem;
 		font-weight: 800;
-		color: #fff;
 		background: rgba(255, 255, 255, 0.16);
 		border: 1px solid rgba(255, 255, 255, 0.18);
 	}
 
 	.pill.good {
-		background: var(--color-success);
+		background: var(--color-success-light);
+		color: var(--color-success);
 	}
 	.pill.warn {
-		background: var(--color-warning);
+		background: var(--color-warning-light);
+		color: var(--color-warning);
 	}
 	.pill.bad {
-		background: var(--color-error);
+		background: var(--color-error-light);
+		color: var(--color-error);
 	}
 
 	.pill-dot {
@@ -275,7 +451,6 @@
 		font-size: 0.85rem;
 	}
 
-	/* inner surface like mock */
 	.surface {
 		background: rgba(17, 24, 39, 0.04);
 		border-radius: var(--radius-sm);
@@ -306,9 +481,6 @@
 
 	/* Responsive */
 	@media (max-width: 640px) {
-		.page {
-			gap: var(--spacing-sm);
-		}
 		.hero-top {
 			position: static;
 			display: flex;
