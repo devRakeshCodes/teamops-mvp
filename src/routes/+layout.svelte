@@ -32,8 +32,8 @@
 			<!-- Notification icon -->
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
+				width="20"
+				height="20"
 				viewBox="0 0 24 24"
 				fill="none"
 				stroke="currentColor"
@@ -51,8 +51,8 @@
 			<!-- Settings icon -->
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
+				width="20"
+				height="20"
 				viewBox="0 0 24 24"
 				fill="none"
 				stroke="currentColor"
@@ -185,8 +185,8 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 34px;
-		height: 34px;
+		width: 40px;
+		height: 40px;
 		border-radius: 999px;
 		border: 1px solid rgba(17, 24, 39, 0.08);
 		background: var(--color-surface);
@@ -251,6 +251,7 @@
 		}
 		/* Prevent content hiding behind footer */
 		.app {
+			padding-top: var(--spacing-md);
 			padding-bottom: calc(var(--spacing-xl) + 56px);
 		}
 	}

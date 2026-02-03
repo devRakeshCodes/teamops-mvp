@@ -30,7 +30,6 @@
 			{ id: 2, level: 'high', title: 'Backup Pending' },
 			{ id: 3, level: 'medium', title: 'Update Available' }
 		];
-
 		loading = false;
 	});
 
@@ -61,7 +60,7 @@
 	<section class="stats" aria-label="Summary statistics">
 		<div class="stat">
 			<span class="label">Usage This Month</span>
-			<span class="value">{data.stats.usageThisMonthGB} GB</span>
+			<span class="value">{data.stats.usageThisMonthGB} <span class="unit">GB</span> </span>
 		</div>
 
 		<div class="stat">
@@ -71,7 +70,82 @@
 
 		<div class="stat">
 			<span class="label">System Status</span>
-			<span class={'pill ' + healthClass(data.stats.systemHealth)}>{data.stats.systemHealth}</span>
+			<span class={'pill ' + healthClass(data.stats.systemHealth)}>
+				<span class="pill-dot">
+					<!-- SVG icon -->
+					{#if healthClass(data.stats.systemHealth) === 'good'}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 16 16"
+							fill="none"
+							><path
+								d="M8.00016 14.6663C11.6668 14.6663 14.6668 11.6663 14.6668 7.99967C14.6668 4.33301 11.6668 1.33301 8.00016 1.33301C4.3335 1.33301 1.3335 4.33301 1.3335 7.99967C1.3335 11.6663 4.3335 14.6663 8.00016 14.6663Z"
+								fill="#2F9A47"
+								stroke="#2F9A47"
+								stroke-width="1.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/><path
+								d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328"
+								stroke="#fff"
+								stroke-width="1.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/></svg
+						>
+					{:else if healthClass(data.stats.systemHealth) === 'warn'}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 16 16"
+							fill="none"
+						>
+							<path
+								d="M8.00016 14.6663C11.6668 14.6663 14.6668 11.6663 14.6668 7.99967C14.6668 4.33301 11.6668 1.33301 8.00016 1.33301C4.3335 1.33301 1.3335 4.33301 1.3335 7.99967C1.3335 11.6663 4.3335 14.6663 8.00016 14.6663Z"
+								fill="#F5A623"
+								stroke="#F5A623"
+								stroke-width="1.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+
+							<!-- Exclamation mark -->
+							<path d="M8 4.5V8.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round" />
+							<circle cx="8" cy="10.8" r="0.7" fill="#fff" />
+						</svg>
+					{:else if healthClass(data.stats.systemHealth) === 'bad'}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 16 16"
+							fill="none"
+						>
+							<path
+								d="M8.00016 14.6663C11.6668 14.6663 14.6668 11.6663 14.6668 7.99967C14.6668 4.33301 11.6668 1.33301 8.00016 1.33301C4.3335 1.33301 1.3335 4.33301 1.3335 7.99967C1.3335 11.6663 4.3335 14.6663 8.00016 14.6663Z"
+								fill="#D64545"
+								stroke="#D64545"
+								stroke-width="1.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+
+							<!-- X -->
+							<path
+								d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+								stroke="#fff"
+								stroke-width="1.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+					{/if}
+				</span>
+				{data.stats.systemHealth}
+			</span>
 		</div>
 	</section>
 
@@ -115,7 +189,32 @@
 					<li class="alert skeleton-row"></li>
 				</ul>
 			{:else if alerts.length === 0}
-				<p class="empty">No alerts — all good ✅</p>
+				<p class="empty">
+					No alerts. All good!
+					<span class="empty-icon">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 16 16"
+							fill="none"
+							><path
+								d="M8.00016 14.6663C11.6668 14.6663 14.6668 11.6663 14.6668 7.99967C14.6668 4.33301 11.6668 1.33301 8.00016 1.33301C4.3335 1.33301 1.3335 4.33301 1.3335 7.99967C1.3335 11.6663 4.3335 14.6663 8.00016 14.6663Z"
+								fill="#2F9A47"
+								stroke="#2F9A47"
+								stroke-width="1.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/><path
+								d="M5.1665 7.99995L7.05317 9.88661L10.8332 6.11328"
+								stroke="#fff"
+								stroke-width="1.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/></svg
+						>
+					</span>
+				</p>
 			{:else}
 				<ul class="alerts" aria-label="Alerts list">
 					{#each alerts as a (a.id)}
@@ -130,36 +229,39 @@
 		</section>
 	</div>
 	<!-- Recent Activity (CSR) -->
-	<section class="panel">
-		<div class="panel-head">
+	<section class="activity-panel">
+		<div class="activity-panel-head">
 			<h2>Recent Activity</h2>
 		</div>
 
-		{#if loading}
-			<ul class="list" aria-label="Loading activity">
-				<li class="row skeleton-row"></li>
-				<li class="row skeleton-row"></li>
-				<li class="row skeleton-row"></li>
-			</ul>
-		{:else if activity.length === 0}
-			<p class="empty">No recent activity.</p>
-		{:else}
-			<ul class="list" aria-label="Recent activity list">
-				{#each activity as item (item.id)}
-					<li class="row">
-						<span class="row-text">{item.text}</span>
-						<small class="row-time">{item.time}</small>
-					</li>
-				{/each}
-			</ul>
-		{/if}
+		<div class="activity-surface">
+			{#if loading}
+				<ul class="list">
+					<li class="row skeleton-row"></li>
+					<li class="row skeleton-row"></li>
+					<li class="row skeleton-row"></li>
+				</ul>
+			{:else if activity.length === 0}
+				<p class="empty">No recent activity.</p>
+			{:else}
+				<ul class="list">
+					{#each activity as item (item.id)}
+						<li class="row activity-row">
+							<span class="activity-dot"></span>
+							<span class="row-text">{item.text}</span>
+							<small class="row-time">{item.time}</small>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+		</div>
 	</section>
 </section>
 
 <style>
 	.page {
 		display: grid;
-		gap: var(--spacing-xl);
+		gap: var(--spacing-md);
 		padding: 0 var(--spacing-md);
 	}
 	.subtitle {
@@ -177,7 +279,7 @@
 	.stat {
 		background: var(--color-surface);
 		padding: var(--spacing-md);
-		border-radius: var(--radius-sm);
+		border-radius: var(--radius-lg);
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 	}
 
@@ -193,25 +295,38 @@
 		font-weight: 650;
 		color: var(--color-text);
 	}
+	.unit {
+		font-size: 0.85rem;
+	}
 
 	.pill {
-		display: inline-block;
-		padding: 4px 10px;
+		display: inline-flex;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 6px;
+		padding: 4px 8px 4px 6px;
 		border-radius: 999px;
 		font-size: 0.85rem;
-		font-weight: 600;
-		color: #fff;
-		margin-top: 2px;
+		font-weight: 700;
+	}
+
+	.pill-dot {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.pill.good {
-		background: var(--color-success);
+		background: var(--color-success-light);
+		color: var(--color-success);
 	}
 	.pill.warn {
-		background: var(--color-warning);
+		background: var(--color-warning-light);
+		color: var(--color-warning);
 	}
 	.pill.bad {
-		background: var(--color-error);
+		background: var(--color-error-light);
+		color: var(--color-error);
 	}
 
 	/* Panels */
@@ -219,8 +334,8 @@
 		height: 100%;
 		background: var(--color-surface);
 		padding: var(--spacing-lg);
-		border-radius: var(--radius-md);
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+		border-radius: var(--radius-lg);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 	}
 
 	.panel-head {
@@ -230,6 +345,50 @@
 		gap: var(--spacing-md);
 		flex-wrap: wrap;
 		margin-bottom: var(--spacing-md);
+	}
+
+	.activity-panel {
+		height: 100%;
+		background: var(--color-surface);
+		border-radius: var(--radius-md);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+	}
+
+	.activity-panel-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--spacing-md);
+		flex-wrap: wrap;
+		height: auto;
+		padding: var(--spacing-md);
+	}
+	/* Inner surface like the mock */
+	.activity-surface {
+		/* margin-top: var(--spacing-sm); */
+		background: rgba(17, 24, 39, 0.04);
+		border-radius: var(--radius-sm);
+		/* padding: var(--spacing-sm) var(--spacing-md); */
+	}
+
+	/* Activity rows refinement */
+	.activity-row {
+		display: grid;
+		grid-template-columns: 10px 1fr auto;
+		align-items: center;
+		gap: var(--spacing-sm);
+		padding: 12px 16px;
+	}
+
+	.activity-row:not(:last-child) {
+		border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+	}
+
+	.activity-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 999px;
+		background: var(--color-primary);
 	}
 
 	h2 {
@@ -247,6 +406,15 @@
 		color: var(--color-muted);
 		margin: 0;
 		padding: var(--spacing-sm) 0;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.empty-icon {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		margin-left: 8px;
 	}
 
 	.mid-grid {
@@ -280,7 +448,7 @@
 	.bar-track {
 		height: 150px;
 		background: rgba(17, 24, 39, 0.06);
-		border-radius: var(--radius-sm);
+		border-radius: var(--radius-lg);
 		display: flex;
 		align-items: flex-end;
 		overflow: hidden;
@@ -289,7 +457,7 @@
 	.bar-fill {
 		width: 100%;
 		background: var(--color-primary);
-		border-radius: var(--radius-sm);
+		border-radius: var(--radius-lg);
 		transition: height 200ms ease;
 	}
 
@@ -301,7 +469,7 @@
 
 	.chart-skeleton {
 		height: 180px;
-		border-radius: var(--radius-sm);
+		border-radius: var(--radius-lg);
 		background: linear-gradient(90deg, #eee 25%, #f5f5f5 37%, #eee 63%);
 		background-size: 400px 100%;
 		animation: shimmer 1.2s infinite;
@@ -332,6 +500,14 @@
 		padding: var(--spacing-sm) var(--spacing-md);
 		border-radius: var(--radius-sm);
 		background: rgba(17, 24, 39, 0.04);
+		transition:
+			background 0.15s ease,
+			transform 0.1s ease;
+		cursor: pointer;
+	}
+	.alert:hover {
+		background: rgba(17, 24, 39, 0.07);
+		transform: translateY(-1px);
 	}
 
 	.alert-text {
@@ -377,7 +553,7 @@
 		display: flex;
 		justify-content: space-between;
 		gap: var(--spacing-md);
-		padding: var(--spacing-sm) 0;
+		padding: var(--spacing-sm) var(--spacing-md);
 		border-bottom: 1px solid rgba(17, 24, 39, 0.08);
 	}
 
@@ -393,6 +569,17 @@
 		color: var(--color-muted);
 		white-space: nowrap;
 	}
+	.activity-row {
+		display: grid;
+		grid-template-columns: 10px 1fr auto;
+		align-items: center;
+	}
+	.activity-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 999px;
+		background: var(--color-primary);
+	}
 
 	.skeleton-row {
 		height: 18px;
@@ -404,6 +591,15 @@
 
 	/* Mobile */
 	@media (max-width: 520px) {
+		.page {
+			gap: var(--spacing-sm);
+		}
+		.stats {
+			gap: var(--spacing-sm);
+		}
+		.mid-grid {
+			gap: var(--spacing-sm);
+		}
 		.panel {
 			padding: var(--spacing-md);
 		}
@@ -411,8 +607,12 @@
 			min-width: 36px;
 		}
 		.row {
-			flex-direction: column;
-			align-items: flex-start;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+		}
+		.row-text {
+			flex: 1;
 		}
 	}
 </style>
