@@ -5,12 +5,10 @@
 
 	let loading = $state(true);
 
-	// CSR data (deferred)
 	let usageTrend = $state([]); // [{ label, value }]
 	let activity = $state([]); // [{ id, text, time }]
 	let alerts = $state([]); // [{ id, level, title }]
 
-	// Simulate CSR fetch (keep it simple & explainable)
 	onMount(async () => {
 		await new Promise((r) => setTimeout(r, 800));
 
@@ -33,13 +31,10 @@
 			{ id: 3, level: 'medium', title: 'Update Available' }
 		];
 
-		// To test empty state quickly, comment above and use:
-		// alerts = [];
-
 		loading = false;
 	});
 
-	// Map system health → UI
+	// Map system health
 	const healthClass = (systemHealth) => {
 		const h = systemHealth?.toLowerCase();
 		if (h === 'degraded') return 'warn';
@@ -62,11 +57,6 @@
 </script>
 
 <section class="page">
-	<header class="head">
-		<h1>Dashboard</h1>
-		<p class="subtitle">Workspace overview</p>
-	</header>
-
 	<!-- Summary statistics (SSR) -->
 	<section class="stats" aria-label="Summary statistics">
 		<div class="stat">
@@ -172,11 +162,6 @@
 		gap: var(--spacing-xl);
 		padding: 0 var(--spacing-md);
 	}
-
-	.head h1 {
-		margin: 0;
-	}
-
 	.subtitle {
 		margin-top: var(--spacing-xs);
 		color: var(--color-muted);
@@ -264,7 +249,6 @@
 		padding: var(--spacing-sm) 0;
 	}
 
-	/* ===== Mid grid: Usage Overview + Alerts (matches the locked mock) ===== */
 	.mid-grid {
 		display: grid;
 		grid-template-columns: 1.35fr 1fr;
@@ -332,7 +316,6 @@
 		}
 	}
 
-	/* ===== Alerts panel ===== */
 	.alerts {
 		list-style: none;
 		padding: 0;
@@ -365,7 +348,7 @@
 		display: inline-block;
 	}
 
-	/* Severity mapping similar to the mock */
+	/* Severity mapping */
 	.dot.high {
 		background: var(--color-error);
 	}
@@ -419,7 +402,7 @@
 		animation: shimmer 1.2s infinite;
 	}
 
-	/* Mobile polish */
+	/* Mobile */
 	@media (max-width: 520px) {
 		.panel {
 			padding: var(--spacing-md);

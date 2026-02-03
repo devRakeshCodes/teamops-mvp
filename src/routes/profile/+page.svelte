@@ -1,4 +1,6 @@
 <script>
+	import Skeleton from '$lib/components/Skeleton.svelte';
+
 	export let data;
 	const { user } = data;
 </script>
@@ -24,7 +26,7 @@
 		</div>
 
 		<div class="actions">
-            <!-- Placeholder actions for MVP -->
+            <!-- Placeholder actions -->
 			<button class="primary" disabled>Manage Account</button>
 			<button class="secondary" disabled>Preferences</button>
 		</div>
