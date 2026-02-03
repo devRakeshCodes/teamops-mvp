@@ -3,6 +3,8 @@
 	import '$lib/styles/tokens.css';
 	import '$lib/styles/global.css';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import { pwaInfo } from 'virtual:pwa-info';
 
 	let { children } = $props();
 
@@ -10,6 +12,18 @@
 		{ href: '/dashboard', label: 'Dashboard' },
 		{ href: '/profile', label: 'Profile' }
 	];
+
+	onMount(async () => {
+		if (pwaInfo) {
+			const { registerSW } = await import('virtual:pwa-register');
+			registerSW({
+				immediate: true,
+				onRegistered(r) {
+					console.log('SW Registered:', r);
+				}
+			});
+		}
+	});
 </script>
 
 <svelte:head>
