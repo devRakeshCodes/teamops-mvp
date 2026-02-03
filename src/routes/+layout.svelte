@@ -21,9 +21,12 @@
 		<span class="logo">TeamOps</span>
 	</div>
 
-	<nav class="nav">
+	<nav class="nav" aria-label="Primary navigation">
 		{#each nav as item (item.href)}
-			<a class="link" href={item.href}>{item.label}</a>
+			<a
+				href={item.href}
+				class={'link ' + ($page.url.pathname.startsWith(item.href) ? 'active' : '')}>{item.label}</a
+			>
 		{/each}
 	</nav>
 
@@ -133,7 +136,7 @@
 		padding: var(--spacing-sm) var(--spacing-lg);
 		background: var(--color-surface);
 		border-bottom: 1px solid rgba(17, 24, 39, 0.08);
-		flex-wrap: wrap; /* allow wrapping */
+		flex-wrap: wrap;
 	}
 
 	.brand .logo {
@@ -165,11 +168,22 @@
 
 	.link {
 		color: var(--color-muted);
-		font-weight: 600;
-		padding: 6px 10px;
+		font-weight: 700;
+		padding: 8px 12px;
 		border-radius: var(--radius-sm);
+		text-decoration: none;
 	}
 
+	.link:hover {
+		background: rgba(17, 24, 39, 0.06);
+		color: var(--color-text);
+	}
+
+	/* Active state */
+	.link.active {
+		background: rgba(2, 47, 73, 0.12); /* matches your primary tone */
+		color: var(--color-primary);
+	}
 	.link:hover {
 		background: rgba(17, 24, 39, 0.06);
 		color: var(--color-text);
