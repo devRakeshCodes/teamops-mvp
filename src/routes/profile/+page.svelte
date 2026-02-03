@@ -106,13 +106,15 @@
 		display: grid;
 		gap: var(--spacing-md);
 		padding: 0 var(--spacing-md);
+		max-width: 1200px;
+		margin: 0 auto;
 	}
 
 	/* HERO like the mock */
 	.hero {
 		background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
 		color: #fff;
-		border-radius: var(--radius-md);
+		border-radius: var(--radius-lg);
 		padding: var(--spacing-xl);
 		display: grid;
 		gap: var(--spacing-lg);
@@ -248,7 +250,7 @@
 	/* DETAILS CARD */
 	.panel {
 		background: var(--color-surface);
-		border-radius: var(--radius-md);
+		border-radius: var(--radius-lg);
 		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 	}
 
