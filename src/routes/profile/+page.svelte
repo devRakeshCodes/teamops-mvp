@@ -10,6 +10,21 @@
 		if (s === 'trial') return 'warn';
 		return 'good';
 	};
+
+	const formatDateTime = (value) => {
+		const d = new Date(value);
+
+		const day = d.getDate();
+		const month = d.toLocaleString(undefined, { month: 'short' });
+		const year = d.getFullYear();
+
+		const time = d.toLocaleTimeString(undefined, {
+			hour: 'numeric',
+			minute: '2-digit'
+		});
+
+		return `${day} ${month} ${year}, ${time}`;
+	};
 </script>
 
 {#if !user}
@@ -51,7 +66,9 @@
 			<div class="hero-actions">
 				<button class="btn primary" type="button">Manage Account</button>
 				<button class="btn secondary" type="button">Preferences</button>
-				<button class="btn ghost" type="button">Logout</button>
+			</div>
+			<div class="hero-top">
+				<button class="btn ghost logout" type="button">Logout</button>
 			</div>
 		</section>
 
@@ -77,7 +94,7 @@
 				</div>
 				<div class="kv">
 					<span class="k">Last Active</span>
-					<span class="v">{new Date(user.lastActive).toLocaleString()}</span>
+					<span class="v">{formatDateTime(user.lastActive)}</span>
 				</div>
 			</div>
 		</section>
@@ -169,6 +186,25 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--spacing-sm);
+	}
+	.hero {
+		position: relative;
+		padding-top: calc(var(--spacing-xl) + 8px); /* reserves space for logout */
+	}
+
+	/* Top-right logout */
+	.hero-top {
+		position: absolute;
+		top: var(--spacing-md);
+		right: var(--spacing-md);
+	}
+
+	.logout {
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	.logout:hover {
+		color: #fff;
 	}
 
 	.btn {
@@ -271,8 +307,13 @@
 		.page {
 			gap: var(--spacing-sm);
 		}
+		.hero-top {
+			position: static;
+			display: flex;
+			justify-content: flex-end;
+		}
 		.hero {
-			padding: var(--spacing-lg);
+			padding: var(--spacing-md);
 		}
 		.panel-head {
 			display: flex;
