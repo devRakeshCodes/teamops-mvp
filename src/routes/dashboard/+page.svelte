@@ -405,7 +405,7 @@
 	.empty {
 		color: var(--color-muted);
 		margin: 0;
-		padding: var(--spacing-sm) 0;
+		padding: var(--spacing-sm);
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
