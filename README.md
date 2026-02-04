@@ -107,11 +107,11 @@ This improves perceived performance and provides an app-like experience on suppo
 
 ## Project Structure
 
+```text
 src/
 routes/
 dashboard/
 profile/
-+layout.js
 +layout.svelte
 +page.server.js
 lib/
@@ -121,8 +121,7 @@ tokens.css
 global.css
 assets/
 favicon.svg
-
----
+```
 
 - Global layout and navigation live in `+layout.svelte`
 - Domain mock data is colocated under `lib/mocks`
