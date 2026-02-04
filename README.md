@@ -109,18 +109,21 @@ This improves perceived performance and provides an app-like experience on suppo
 
 ```text
 src/
-routes/
-dashboard/
-profile/
-+layout.svelte
-+page.server.js
-lib/
-mocks/
-styles/
-tokens.css
-global.css
-assets/
-favicon.svg
+├── routes/
+│   ├── dashboard/       # Dashboard page
+│   └── profile/         # Profile page
+├── +layout.svelte
+├── +layout.server.js
+├── +page.server.js      # Redirect to dashboard
+├── lib/
+│   ├── mock/            # Mock data
+│   └── styles/
+│       ├── tokens.css   # Design tokens
+│       └── global.css   # Global styles
+├── assets               # Favicon and PWA icons
+├── vite.config.js       # Vite configuration
+├── svelte.config.js     # SvelteKit configuration
+└── package.json         # Dependencies and scripts
 ```
 
 - Global layout and navigation live in `+layout.svelte`
